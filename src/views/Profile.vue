@@ -32,8 +32,8 @@
                 </h4>
             </v-col>
 
-            <v-col align-self="start" class="mt-2" cols="1">
-                <v-btn outlined color="white" text fab>
+            <v-col align-self="start" class="mt-2" cols="1" v-show="open_status">
+                <v-btn outlined color="white" text fab @click="open_tab()"  target="_blank">
                     <v-icon>
                         mdi-open-in-new
                     </v-icon>
@@ -47,56 +47,66 @@
             <v-row no-gutters dense>
                 <v-col cols="12"
                     sm="6"
-                    md="4" v-for="n in 5" :key="n">
+                    md="4" v-for="blog in blogs" :key="blog.id">
+                    
                     <v-card
                         class="mx-auto mb-10"
                         max-width="344"
+                        tile
+                        min-height="150"
+                        :transition="scroll-y-reverse-transition"
                     >
-                        <v-card-text>
-                        <div>Word of the Day</div>
+                        <v-card-text>                        
                         <p class="display-1 text--primary">
-                            el·ee·mos·y·nar·y
+                            {{ blog.title }}
                         </p>
-                        <p>adjective</p>
+                        <v-divider class="my-4"></v-divider>
                         <div class="text--primary">
-                            relating to or dependent on charity; charitable.<br>
-                            "an eleemosynary educational institution."
+                            {{ blog.description }}
                         </div>
+                        <p> {{ blog.date }} </p>
                         </v-card-text>
-                        <v-card-actions>
-                        <v-btn
-                            text
-                            color="teal accent-4"
-                            @click="reveal = true"
-                        >
-                            Learn More
-                        </v-btn>
-                        </v-card-actions>
 
-                        <v-expand-transition>
-                        <v-card
-                            v-if="reveal"
-                            class="transition-fast-in-fast-out v-card--reveal"
-                            style="height: 100%;"
-                        >
-                            <v-card-text class="pb-0">
-                            <p class="display-1 text--primary">
-                                Origin
-                            </p>
-                            <p>late 16th century (as a noun denoting a place where alms were distributed): from medieval Latin eleemosynarius, from late Latin eleemosyna ‘alms’, from Greek eleēmosunē ‘compassion’ </p>
-                            </v-card-text>
-                            <v-card-actions class="pt-0">
-                            <v-btn
-                                text
-                                color="teal accent-4"
-                                @click="reveal = false"
+                        <v-card-actions>
+                            <v-list-item class="grow">
+                                <!-- <v-list-item-avatar color="primary">
+                                    <span class="white--text"> {{ avatar_initials }} </span>
+                                </v-list-item-avatar>
+
+                                <v-list-item-content>
+                                <v-list-item-title>{{ user.username }}</v-list-item-title>
+                                </v-list-item-content> -->
+
+                                <v-row
+                                align="center"
+                                justify="end"
+                                >
+                                <v-icon class="mr-1"
+                                    @click="increment_likes()"
+                                    color="red">
+                                    mdi-heart
+                                </v-icon>
+                                <span class="subheading mr-2"> {{ like.likes }} </span>
+                                <span class="mr-1">·</span>
+                                <v-icon 
+                                    class="mr-1"
+                                    @click="increment_shares()"
+                                    color="grey">
+                                    mdi-export-variant
+                                </v-icon>
+                                <span class="subheading"> {{ share.shares }} </span>
+                                </v-row>
+                            </v-list-item>
+                        </v-card-actions>
+                        <!-- <v-chip
+                            link
+                            class="ma-2"
+                            color="primary"
                             >
-                                Close
-                            </v-btn>
-                            </v-card-actions>
-                        </v-card>
-                        </v-expand-transition>
+                            Post
+                        </v-chip> -->
                     </v-card>
+                    
                 </v-col>
             </v-row>
         </v-container>
@@ -114,9 +124,20 @@ export default {
                 email: ''
             },
 
+            like: {
+                status: false,
+                likes: 5,
+            },
+            
+            share: {
+                status: false,
+                shares: 0,
+            },
+
             blogs: [],
             
-            avatar_initials: ''
+            avatar_initials: '',
+            open_status: false
         }
     },
 
@@ -127,17 +148,14 @@ export default {
 
             this.user = this.$store.state.user_data.user_data
             this.initialize(this.user.id)
+            this.open_status = true
 
         } else {
 
             let id = this.$route.query.id
-
-            console.log('id: ' +id)
-
             // initialize user's profile
             this.get_user(id)
             this.initialize(id)
-
         }
     },
 
@@ -176,6 +194,31 @@ export default {
         initialize_user() {
             this.avatar_initials = this.user.username[0].toUpperCase() 
                                     + this.user.username[1].toUpperCase()
+        },
+
+        increment_likes() {
+            if(this.like.status == false) {
+                this.like.likes++
+                this.like.status = true
+            } else {
+                this.like.likes--
+                this.like.status = false
+            }
+        },
+
+        increment_shares() {
+            if(this.share.status == false) {
+                this.share.shares++
+                this.share.status = true
+            } else {
+                this.share.shares--
+                this.share.status = false
+            }
+        },
+
+        open_tab() {
+            let routeData = this.$router.resolve({name: 'UserProfile', query: {id: this.user.id}});
+            window.open(routeData.href, '_blank');
         }
     }
     
@@ -183,5 +226,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 
 </style>

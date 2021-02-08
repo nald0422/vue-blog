@@ -1,66 +1,71 @@
 <template>
     <v-app id="inspire">
-        <v-container>
-        <v-form
-            ref="form"
-            v-model="valid"
-            lazy-validation
-        >
-            <v-text-field
-            v-model="name"
-            :counter="10"
-            :rules="nameRules"
-            label="Name"
-            required
-            ></v-text-field>
-
-            <v-text-field
-            v-model="email"
-            :rules="emailRules"
-            label="E-mail"
-            required
-            ></v-text-field>
-
-            <v-select
-            v-model="select"
-            :items="items"
-            :rules="[v => !!v || 'Item is required']"
-            label="Item"
-            required
-            ></v-select>
-
-            <v-checkbox
-            v-model="checkbox"
-            :rules="[v => !!v || 'You must agree to continue!']"
-            label="Do you agree?"
-            required
-            ></v-checkbox>
-
-            <v-btn
-            :disabled="!valid"
-            color="success"
-            class="mr-4"
-            @click="validate"
+          <v-card max-width="500" class=" ma-10" tile>
+            <v-card-title class="black" :elevation="15">
+              <span class="headline white--text">Account Settings</span>
+            </v-card-title>
+            <v-form
+                ref="form"
+                v-model="valid"
+                lazy-validation
+                class="pa-5"
             >
-            Validate
-            </v-btn>
+                <v-text-field
+                v-model="name"
+                :counter="10"
+                :rules="nameRules"
+                label="Username"
+                required
+                ></v-text-field>
 
-            <v-btn
-            color="error"
-            class="mr-4"
-            @click="reset"
-            >
-            Reset Form
-            </v-btn>
+                <v-text-field
+                v-model="email"
+                :rules="emailRules"
+                label="E-mail"
+                required
+                ></v-text-field>
 
-            <v-btn
-            color="warning"
-            @click="resetValidation"
-            >
-            Reset Validation
-            </v-btn>
-        </v-form>
-        </v-container>
+                <v-select
+                v-model="select"
+                :items="items"
+                :rules="[v => !!v || 'Item is required']"
+                label="Item"
+                required
+                ></v-select>
+
+                <v-checkbox
+                v-model="checkbox"
+                :rules="[v => !!v || 'You must agree to continue!']"
+                label="Do you agree?"
+                required
+                ></v-checkbox>
+                
+                <v-btn
+                :disabled="!valid"
+                color="success"
+                class="mr-4"
+                @click="validate"
+                outlined
+                >
+                <v-icon class="mr-2">
+                  mdi-content-save
+                </v-icon>
+                Save
+                </v-btn>
+
+                <v-btn
+                color="error"
+                @click="resetValidation"
+                dense
+                outlined
+                >
+                <v-icon class="mr-2">
+                  mdi-account-off
+                </v-icon>
+                  Deactivate
+                </v-btn>
+            </v-form>
+          </v-card>
     </v-app>
 </template>
 

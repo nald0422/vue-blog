@@ -1,6 +1,6 @@
 <template>
   <v-app id="inspire">
-    <v-content>
+    <v-main>
         <v-container fluid fill-height>
             <v-layout align-cener justify-center style="margin-top: 0rem">
                 <v-flex xs12 sm8 md5>
@@ -14,13 +14,25 @@
                                 </div>
 
                                 <v-form action="" class="log-in" autocomplete="off"> 
-                                    <h4>Demo: <span>Blog App</span></h4>
+                                    <h4><span>Welcome!</span></h4>
                                     <div class="floating-label">
-                                        <input v-model="user_username" placeholder="Username" type="text" name="username" id="username" autocomplete="off">
+                                        <input 
+                                          v-model="user_username" 
+                                          placeholder="Username" 
+                                          type="text" 
+                                          name="username" 
+                                          id="username" 
+                                          autocomplete="off">
                                         <label for="username">Username:</label>
                                     </div>
                                     <div class="floating-label">
-                                        <input v-model="user_password" placeholder="Password" type="password" name="password" id="password" autocomplete="off">
+                                        <input 
+                                          v-model="user_password" 
+                                          placeholder="Password" 
+                                          type="password" 
+                                          name="password" 
+                                          id="password" 
+                                          autocomplete="off">
                                         <label for="password">Password:</label>
                                     </div>
                                     <v-btn color="primary" dense depressed @click="onSubmit()">Log in</v-btn>
@@ -31,7 +43,7 @@
                 </v-flex>
             </v-layout>
         </v-container>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 

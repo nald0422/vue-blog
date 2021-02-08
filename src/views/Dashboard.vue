@@ -194,6 +194,7 @@ export default {
           // console.log(error.response.data);  
           // console.log(error.response.status);  
           // console.log(error.response.headers); 
+          this.error_message(error.response.data)
         })
       },
 
@@ -247,6 +248,7 @@ export default {
           console.log(error.response.data);  
           console.log(error.response.status);  
           console.log(error.response.headers); 
+          this.error_message(error.response.data)
         })
       },
 
@@ -265,6 +267,7 @@ export default {
             console.log(error.response.data);  
             console.log(error.response.status);  
             console.log(error.response.headers); 
+            this.error_message(error.response.data)
           })
 
         } else {

@@ -160,9 +160,9 @@
               class="px-3 py-3"
             > -->
                 <!-- <v-card :elevation="10"> -->
-                    <keep-alive>
+                    <!-- <keep-alive> -->
                         <router-view />
-                    </keep-alive>
+                    <!-- </keep-alive> -->
                 <!-- </v-card> -->
             <!-- </v-sheet> -->
           </v-col>
@@ -182,7 +182,7 @@
           { icon: 'mdi-home', text: 'Home', route: '/home' },
           { icon: 'mdi-view-dashboard', text: 'Dashboard', route: '/dashboard' },
           { icon: 'mdi-post', text: 'Profile', route: '/profile' },
-          { icon: 'mdi-account', text: 'Account', route: '/account' },
+          // { icon: 'mdi-account', text: 'Account', route: '/account' },
       ],
       drawer: true,
       app: true,

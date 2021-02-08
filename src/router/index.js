@@ -1,34 +1,36 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+
+import routes from './routes.js'
 
 Vue.use(VueRouter)
 
-const routes = [
+  const router = new VueRouter({
+    routes,
+    mode: 'history',
+    base: process.env.BASE_URL,
+  })
 
-  { path: '/login', name: 'Login', component: () => import('../layouts/Login.vue') },  
-  { path: '/home', name: 'Home', component: () => import('../layouts/Main_Layout.vue'), 
-      children: [ 
-        { path: '/dashboard', name: 'Dashboard', component: () => import('../views/Dashboard.vue') },
-        { path: '/profile', name: 'Profile', component: () => import('../views/Profile.vue') },
-        { path: '/account', name: 'Account', component: () => import('../views/Account.vue') },
-      ]},
-  { path: '/user_profile', name: 'UserProfile', component: () => import ('../layouts/Main_Profile.vue'), 
-      query: { id: '' }},  
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../layouts/Main_Profile.vue')
-  }
-]
+  router.beforeEach((to, from, next) => {
 
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes
-})
+    const public_pages = ['/login','', '/user_profile']
+    const auth_required = !public_pages.includes(to.path);
+    const auth_off = public_pages.includes(to.path);
 
+    let token = $cookies.get('token');
+
+    if(auth_required && !token) {
+      return next('/login');
+    }
+
+    if (auth_off && token) {
+      $cookies.remove('token')
+    }
+
+    next();
+
+  });
+
+ 
 export default router
+
